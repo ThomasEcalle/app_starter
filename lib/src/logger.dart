@@ -1,4 +1,5 @@
 class Logger {
+  // Simple info log
   static void logInfo(String message, {bool lineBreak = false}) {
     if (lineBreak) {
       print("\n[INFO] $message");
@@ -7,10 +8,12 @@ class Logger {
     }
   }
 
+  // Simple warning log
   static void logWarning(String message) {
     print("[WARNING] $message");
   }
 
+  // Simple error log
   static void logError(String message) {
     print("[ERROR] $message");
   }

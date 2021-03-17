@@ -7,6 +7,7 @@ import 'package:yaml/yaml.dart';
 import 'constants.dart';
 
 class CommandRunner {
+  // Method called on app creation
   void create(List<String> args) async {
     final ArgParser parser = ArgParser();
     parser.addOption("name", abbr: "n", defaultsTo: Constants.defaultPackageIdentifier);
@@ -134,6 +135,7 @@ class CommandRunner {
     }
   }
 
+  // Copy all the content of [sourceFilePath] and paste it in [targetFilePath]
   Future<void> _copyPasteFileContent(String sourceFilePath, String targetFilePath) async {
     try {
       final File sourceFile = File(sourceFilePath);
@@ -146,6 +148,7 @@ class CommandRunner {
     }
   }
 
+  // Copy all the content of [sourceDirPath] and paste it in [targetDirPath]
   void _copyPasteDirectory(
     String sourceDirPath,
     String targetDirPath,
@@ -168,6 +171,7 @@ class CommandRunner {
     );
   }
 
+  // Update recursively all imports in [directoryPath] from [oldPackageName] to [newPackageName]
   Future<void> _changeAllInDirectory(String directoryPath, String oldPackageName, String newPackageName) async {
     final Directory directory = Directory(directoryPath);
     final String dirName = directoryPath.split("/").last;
@@ -187,6 +191,7 @@ class CommandRunner {
     }
   }
 
+  // Update recursively all imports in [filePath] from [oldPackageName] to [newPackageName]
   Future<void> _changeAllInFile(String filePath, String oldValue, String newValue) async {
     try {
       final File file = File(filePath);
@@ -200,6 +205,7 @@ class CommandRunner {
     }
   }
 
+  // Return if package identifier is a valid one or not, base on dart specifications
   bool _isValidPackageName(String name) {
     final match = Constants.identifierRegExp.matchAsPrefix(name);
     return match != null && match.end == name.length;
