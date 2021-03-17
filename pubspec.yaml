@@ -1,8 +1,8 @@
 name: app_starter
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
+author: thomasecalle@gmail.com
+homepage: https://github.com/ThomasEcalle/app_starter
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
