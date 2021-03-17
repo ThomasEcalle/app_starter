@@ -1,5 +1,5 @@
 name: app_starter
-description: A new Flutter package project.
+description: A simple dart package to start any flutter application based on a model git repository
 version: 0.0.3
 homepage: https://github.com/ThomasEcalle/app_starter
 
