@@ -1,7 +1,6 @@
 name: app_starter
 description: A new Flutter package project.
 version: 0.0.1
-author: thomasecalle@gmail.com
 homepage: https://github.com/ThomasEcalle/app_starter
 
 environment:
@@ -11,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  yaml: 3.1.0
-  args: 2.0.0
+  yaml: ^3.1.0
+  args: ^2.0.0
 
 dev_dependencies:
   flutter_test:
