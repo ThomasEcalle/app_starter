@@ -10,8 +10,10 @@ class CommandRunner {
   // Method called on app creation
   void create(List<String> args) async {
     final ArgParser parser = ArgParser();
-    parser.addOption("name", abbr: "n", defaultsTo: Constants.defaultPackageIdentifier);
-    parser.addOption("template", abbr: "t", defaultsTo: Constants.defaultTemplateRepository);
+    parser.addOption("name",
+        abbr: "n", defaultsTo: Constants.defaultPackageIdentifier);
+    parser.addOption("template",
+        abbr: "t", defaultsTo: Constants.defaultTemplateRepository);
     parser.addOption("org", abbr: "o", defaultsTo: Constants.organization);
 
     final results = parser.parse(args);
@@ -31,7 +33,8 @@ class CommandRunner {
     final String workingDirectoryPath = current.path;
 
     try {
-      Logger.logInfo("Creating flutter project using your current flutter version...");
+      Logger.logInfo(
+          "Creating flutter project using your current flutter version...");
 
       Process.runSync(
         "flutter",
@@ -58,7 +61,8 @@ class CommandRunner {
         runInShell: true,
       );
 
-      final String content = await File("$workingDirectoryPath/temp/pubspec.yaml").readAsString();
+      final String content =
+          await File("$workingDirectoryPath/temp/pubspec.yaml").readAsString();
       final mapData = loadYaml(content);
       final String templatePackageName = mapData["name"];
 
@@ -136,7 +140,8 @@ class CommandRunner {
   }
 
   // Copy all the content of [sourceFilePath] and paste it in [targetFilePath]
-  Future<void> _copyPasteFileContent(String sourceFilePath, String targetFilePath) async {
+  Future<void> _copyPasteFileContent(
+      String sourceFilePath, String targetFilePath) async {
     try {
       final File sourceFile = File(sourceFilePath);
       final File targetFile = File(targetFilePath);
@@ -172,7 +177,8 @@ class CommandRunner {
   }
 
   // Update recursively all imports in [directoryPath] from [oldPackageName] to [newPackageName]
-  Future<void> _changeAllInDirectory(String directoryPath, String oldPackageName, String newPackageName) async {
+  Future<void> _changeAllInDirectory(String directoryPath,
+      String oldPackageName, String newPackageName) async {
     final Directory directory = Directory(directoryPath);
     final String dirName = directoryPath.split("/").last;
     if (directory.existsSync()) {
@@ -181,18 +187,22 @@ class CommandRunner {
         files,
         (FileSystemEntity fileSystemEntity) async {
           if (fileSystemEntity is File) {
-            await _changeAllInFile(fileSystemEntity.path, oldPackageName, newPackageName);
+            await _changeAllInFile(
+                fileSystemEntity.path, oldPackageName, newPackageName);
           }
         },
       );
-      Logger.logInfo("All files in $dirName updated with new package name ($newPackageName)");
+      Logger.logInfo(
+          "All files in $dirName updated with new package name ($newPackageName)");
     } else {
-      Logger.logWarning("Missing directory $dirName in your template, it will be ignored");
+      Logger.logWarning(
+          "Missing directory $dirName in your template, it will be ignored");
     }
   }
 
   // Update recursively all imports in [filePath] from [oldPackageName] to [newPackageName]
-  Future<void> _changeAllInFile(String filePath, String oldValue, String newValue) async {
+  Future<void> _changeAllInFile(
+      String filePath, String oldValue, String newValue) async {
     try {
       final File file = File(filePath);
       final String content = file.readAsStringSync();
