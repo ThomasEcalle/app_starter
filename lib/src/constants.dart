@@ -8,7 +8,7 @@ class Constants {
   static final String defaultPackageIdentifier = "example";
 
   // Default Repository where the package will get the template from
-  static final String defaultTemplateRepository = "git@github.com:ThomasEcalle/flappy_template.git";
+  static final String defaultTemplateRepository = "https://github.com/ThomasEcalle/flappy_template";
 
   // Default organization id (here, with the default package identidier beeing 'example',
   // then the package id will be 'com.example.example'
