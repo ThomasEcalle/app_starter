@@ -58,9 +58,11 @@ This package is here to make you **save some time** on these processes.
     
 ## Several philosophies    
  Now that you want to automate these processes, you have to choose **how** to do it.    
-### Using an already existing "starter" You could use an already existing starter as the famous one from very good ventures : https://github.com/VeryGoodOpenSource/very_good_cli    
-    
-    
+
+### Using an already existing "starter" 
+
+You could use an already existing starter as the famous one from very good ventures : https://github.com/VeryGoodOpenSource/very_good_cli    
+       
 Let's be honest : **this is a good starter** !   
   
 But, you can't really customize it depending on your needs.. and developers often have different needs ! Different philosophies on architecture, on dependencies, etc.    
