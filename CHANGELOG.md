@@ -9,3 +9,7 @@ Just some documentation fixes
 ## [0.0.3] - Fix dependencies versions
 
 Lower dependencies versions needed and remove flutter sdk dependency
+
+## [0.0.4] - Fix dart executable
+
+Add missing executable and fix some Readme issues
