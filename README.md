@@ -8,28 +8,28 @@
     
  Simply activate the package:    
 ```sh  
-flutter pub global activate app_starter    
+flutter pub global activate app_starter   
 ```  
 ## How to use it ?    
  Place yourself where you want to create your app and then simply run:    
     
   ```sh  
- flutter pub run app_starter --name <package_identifier> --org <organisation> --template <template_git_repository>  
+app_starter --name <package_identifier> --org <organisation> --template <template_git_repository>  
 ```  
   
  For example:    
     
 ```sh  
- flutter pub run app_starter --name toto --org io.example --template https://github.com/ThomasEcalle/flappy_templateUsing abbreviation:    
+app_starter --name toto --org io.example --template https://github.com/ThomasEcalle/flappy_templateUsing abbreviation:    
 ```  
 Or, more concise:  
 ```sh  
- flutter pub run -n toto -o io.example -t https://github.com/ThomasEcalle/flappy_template  
+app_starter -n toto -o io.example -t https://github.com/ThomasEcalle/flappy_template  
 ```  
   
 ## Arguments    
- | key | abbreviation | description | default value |    
-| ---- | -- | -- | --  |    
+| key | abbreviation | description | default value |    
+| ---- | ---- | ---- | ---- |    
 | name | n | the dart package identifier | example |    
 | org | o | the organisation identifier | com.example |    
 | template | t | the git repository of your template | https://github.com/ThomasEcalle/flappy_template |    
@@ -86,7 +86,7 @@ Without mentioning the fact that the number of configuration files which need to
 Flutter evolves ?    
 No problem, you will still be able to create a new app cloning your base architecture without any effort 🚀  
   
-### About app flavors  
+## About app flavors  
   
 Flavors are often really important in app develoment.  
 Every app I develop use, at least, a `dev` and a `prod` flavor, some times more.  
