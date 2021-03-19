@@ -17,4 +17,9 @@ class Logger {
   static void logError(String message) {
     print("[ERROR] $message");
   }
+
+  // Log configuration key/value pair
+  static void logConfigKeyValue(String key, String? value) {
+    print("[CONFIG] $key = $value");
+  }
 }

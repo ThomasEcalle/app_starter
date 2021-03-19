@@ -26,6 +26,12 @@ class CommandRunner {
         defaultsTo: null,
       )
       ..addFlag(
+        "config",
+        abbr: "c",
+        negatable: false,
+        defaultsTo: false,
+      )
+      ..addFlag(
         "save",
         abbr: "s",
         negatable: false,
@@ -35,8 +41,17 @@ class CommandRunner {
     final results = parser.parse(args);
 
     final bool save = results["save"];
+    final bool showConfig = results["config"];
 
     final AppModel appModelFomConfig = AppModel.fromConfigFile();
+
+    if (showConfig) {
+      Logger.logConfigKeyValue("name", appModelFomConfig.name);
+      Logger.logConfigKeyValue("organization", appModelFomConfig.organization);
+      Logger.logConfigKeyValue("template", appModelFomConfig.templateRepository);
+
+      return;
+    }
 
     final AppModel appModel = AppModel(
       name: results["name"] ?? appModelFomConfig.name,
