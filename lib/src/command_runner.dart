@@ -4,99 +4,142 @@ import 'package:app_starter/src/logger.dart';
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
 
-import 'constants.dart';
+import 'models/app_model.dart';
 
 class CommandRunner {
   // Method called on app creation
   void create(List<String> args) async {
-    final ArgParser parser = ArgParser();
-    parser.addOption("name",
-        abbr: "n", defaultsTo: Constants.defaultPackageIdentifier);
-    parser.addOption("template",
-        abbr: "t", defaultsTo: Constants.defaultTemplateRepository);
-    parser.addOption("org", abbr: "o", defaultsTo: Constants.organization);
+    final ArgParser parser = ArgParser()
+      ..addOption(
+        "name",
+        abbr: "n",
+        defaultsTo: null,
+      )
+      ..addOption(
+        "template",
+        abbr: "t",
+        defaultsTo: null,
+      )
+      ..addOption(
+        "org",
+        abbr: "o",
+        defaultsTo: null,
+      )
+      ..addFlag(
+        "save",
+        abbr: "s",
+        negatable: false,
+        defaultsTo: false,
+      );
 
     final results = parser.parse(args);
 
-    final String _projectName = results["name"];
-    final String _gitRemoteURL = results["template"];
-    final String _organization = results["org"];
+    final bool save = results["save"];
 
-    if (!_isValidPackageName(_projectName)) {
-      Logger.logError("This is not a dart valid package name");
-      return;
+    final AppModel appModelFomConfig = AppModel.fromConfigFile();
+
+    final AppModel appModel = AppModel(
+      name: results["name"] ?? appModelFomConfig.name,
+      organization: results["org"] ?? appModelFomConfig.organization,
+      templateRepository: results["template"] ?? appModelFomConfig.templateRepository,
+    );
+
+    bool hasOneFiledNull = false;
+
+    if (appModel.name == null) {
+      Logger.logError("Package identifier argument not found, neither in config. --name or -n to add one.");
+      hasOneFiledNull = true;
     }
 
-    Logger.logInfo("Let's create $_projectName application !");
+    if (appModel.organization == null) {
+      Logger.logError("Organization identifier not found, neither in config. --org or -o to add one.");
+      hasOneFiledNull = true;
+    }
+
+    if (appModel.templateRepository == null) {
+      Logger.logError("Template url not found, neither in config. --template or -t to use one.");
+      hasOneFiledNull = true;
+    }
+
+    if (!appModel.hasValidPackageName()) {
+      Logger.logError("${appModel.name} is not a dart valid package name");
+      hasOneFiledNull = true;
+    }
+
+    if (hasOneFiledNull) return;
+
+    if (save) {
+      appModel.writeInConfigFile();
+    }
+
+    Logger.logInfo("Let's create ${appModel.name} application !");
 
     final Directory current = Directory.current;
     final String workingDirectoryPath = current.path;
 
     try {
-      Logger.logInfo(
-          "Creating flutter project using your current flutter version...");
+      Logger.logInfo("Creating flutter project using your current flutter version...");
 
       Process.runSync(
         "flutter",
         [
           "create",
           "--org",
-          _organization,
-          _projectName,
+          appModel.organization!,
+          appModel.name!,
         ],
         workingDirectory: workingDirectoryPath,
         runInShell: true,
       );
 
-      Logger.logInfo("Retrieving your template from $_gitRemoteURL...");
+      Logger.logInfo("Retrieving your template from ${appModel.templateRepository}...");
 
       Process.runSync(
         "git",
         [
           "clone",
-          _gitRemoteURL,
+          appModel.templateRepository!,
           "temp",
         ],
         workingDirectory: "$workingDirectoryPath",
         runInShell: true,
       );
 
-      final String content =
-          await File("$workingDirectoryPath/temp/pubspec.yaml").readAsString();
+      final String content = await File("$workingDirectoryPath/temp/pubspec.yaml").readAsString();
       final mapData = loadYaml(content);
       final String templatePackageName = mapData["name"];
 
       _copyPasteDirectory(
         "$workingDirectoryPath/temp/lib",
-        "$workingDirectoryPath/$_projectName/lib",
+        "$workingDirectoryPath/${appModel.name}/lib",
       );
 
       _copyPasteDirectory(
         "$workingDirectoryPath/temp/test",
-        "$workingDirectoryPath/$_projectName/test",
+        "$workingDirectoryPath/${appModel.name}/test",
       );
 
       await _copyPasteFileContent(
         "$workingDirectoryPath/temp/pubspec.yaml",
-        "$workingDirectoryPath/$_projectName/pubspec.yaml",
+        "$workingDirectoryPath/${appModel.name}/pubspec.yaml",
       );
 
       await _changeAllInFile(
-        "$workingDirectoryPath/$_projectName/pubspec.yaml",
+        "$workingDirectoryPath/${appModel.name}/pubspec.yaml",
         templatePackageName,
-        _projectName,
+        appModel.name!,
       );
 
       await _changeAllInDirectory(
-        "$workingDirectoryPath/$_projectName/lib",
+        "$workingDirectoryPath/${appModel.name}/lib",
         templatePackageName,
-        _projectName,
+        appModel.name!,
       );
 
       await _changeAllInDirectory(
-        "$workingDirectoryPath/$_projectName/test",
+        "$workingDirectoryPath/${appModel.name}/test",
         templatePackageName,
-        _projectName,
+        appModel.name!,
       );
 
       Process.runSync(
@@ -105,7 +148,7 @@ class CommandRunner {
           "pub",
           "get",
         ],
-        workingDirectory: "$workingDirectoryPath/$_projectName",
+        workingDirectory: "$workingDirectoryPath/${appModel.name}",
       );
 
       Logger.logInfo("Deleting temp files used for generation...");
@@ -126,7 +169,7 @@ class CommandRunner {
         "rm",
         [
           "-rf",
-          "$workingDirectoryPath/$_projectName",
+          "$workingDirectoryPath/${appModel.name}",
         ],
       );
       Process.runSync(
@@ -140,8 +183,7 @@ class CommandRunner {
   }
 
   // Copy all the content of [sourceFilePath] and paste it in [targetFilePath]
-  Future<void> _copyPasteFileContent(
-      String sourceFilePath, String targetFilePath) async {
+  Future<void> _copyPasteFileContent(String sourceFilePath, String targetFilePath) async {
     try {
       final File sourceFile = File(sourceFilePath);
       final File targetFile = File(targetFilePath);
@@ -177,8 +219,7 @@ class CommandRunner {
   }
 
   // Update recursively all imports in [directoryPath] from [oldPackageName] to [newPackageName]
-  Future<void> _changeAllInDirectory(String directoryPath,
-      String oldPackageName, String newPackageName) async {
+  Future<void> _changeAllInDirectory(String directoryPath, String oldPackageName, String newPackageName) async {
     final Directory directory = Directory(directoryPath);
     final String dirName = directoryPath.split("/").last;
     if (directory.existsSync()) {
@@ -187,22 +228,18 @@ class CommandRunner {
         files,
         (FileSystemEntity fileSystemEntity) async {
           if (fileSystemEntity is File) {
-            await _changeAllInFile(
-                fileSystemEntity.path, oldPackageName, newPackageName);
+            await _changeAllInFile(fileSystemEntity.path, oldPackageName, newPackageName);
           }
         },
       );
-      Logger.logInfo(
-          "All files in $dirName updated with new package name ($newPackageName)");
+      Logger.logInfo("All files in $dirName updated with new package name ($newPackageName)");
     } else {
-      Logger.logWarning(
-          "Missing directory $dirName in your template, it will be ignored");
+      Logger.logWarning("Missing directory $dirName in your template, it will be ignored");
     }
   }
 
   // Update recursively all imports in [filePath] from [oldPackageName] to [newPackageName]
-  Future<void> _changeAllInFile(
-      String filePath, String oldValue, String newValue) async {
+  Future<void> _changeAllInFile(String filePath, String oldValue, String newValue) async {
     try {
       final File file = File(filePath);
       final String content = file.readAsStringSync();
@@ -213,11 +250,5 @@ class CommandRunner {
     } catch (error) {
       Logger.logError("Error updating file $filePath : $error");
     }
-  }
-
-  // Return if package identifier is a valid one or not, base on dart specifications
-  bool _isValidPackageName(String name) {
-    final match = Constants.identifierRegExp.matchAsPrefix(name);
-    return match != null && match.end == name.length;
   }
 }

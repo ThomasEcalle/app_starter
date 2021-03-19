@@ -17,6 +17,5 @@ class ConfigManager extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(ConfigManager oldWidget) =>
-      oldWidget.apiBaseUrl != apiBaseUrl;
+  bool updateShouldNotify(ConfigManager oldWidget) => oldWidget.apiBaseUrl != apiBaseUrl;
 }
