@@ -36,12 +36,24 @@ class CommandRunner {
         abbr: "s",
         negatable: false,
         defaultsTo: false,
+      )
+      ..addFlag(
+        "help",
+        abbr: "h",
+        negatable: false,
+        defaultsTo: false,
       );
 
     final results = parser.parse(args);
 
     final bool save = results["save"];
     final bool showConfig = results["config"];
+    final bool showHelp = results["help"];
+
+    if (showHelp) {
+      _showHelp();
+      return;
+    }
 
     final AppModel appModelFomConfig = AppModel.fromConfigFile();
 
@@ -265,5 +277,38 @@ class CommandRunner {
     } catch (error) {
       Logger.logError("Error updating file $filePath : $error");
     }
+  }
+
+  void _showHelp() {
+    print("""
+    
+usage: app_starter [--save] [--name <name>] [--org <org>] [--template <template>] [--config]
+
+* Abbreviations:
+
+--name      |  -n
+--org       |  -o
+--template  |  -t
+--save      |  -s
+--config    |  -c
+
+* Add information about the app and the template:
+  
+name       ->       indicates the package identifier (ex: toto)
+org        ->       indicates the organization identifier (ex: io.example)
+template   ->       indicates the template repository (ex: https://github.com/ThomasEcalle/flappy_template)
+
+* Store default information for future usages:
+
+save       ->       save information in config file in order to have default configuration values
+
+For example, running : app_starter --save -n toto -o io.example -t https://github.com/ThomasEcalle/flappy_template
+
+This will store these information in configuration file.
+That way, next time, you could for example just run : app_starter -n myapp
+Organization and Template values would be taken from config.
+
+config     ->      shows values stored in configuration file
+    """);
   }
 }
