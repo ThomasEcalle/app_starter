@@ -13,3 +13,10 @@ Lower dependencies versions needed and remove flutter sdk dependency
 ## [0.0.4] - Fix dart executable
 
 Add missing executable and fix some Readme issues
+
+## [1.0.0] - First usable version
+
+Add storable configuration values
+Add configuration displaying command
+Add help displaying command
+Add better documentation in Readme
