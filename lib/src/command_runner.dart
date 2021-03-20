@@ -60,7 +60,8 @@ class CommandRunner {
     if (showConfig) {
       Logger.logConfigKeyValue("name", appModelFomConfig.name);
       Logger.logConfigKeyValue("organization", appModelFomConfig.organization);
-      Logger.logConfigKeyValue("template", appModelFomConfig.templateRepository);
+      Logger.logConfigKeyValue(
+          "template", appModelFomConfig.templateRepository);
 
       return;
     }
@@ -68,23 +69,27 @@ class CommandRunner {
     final AppModel appModel = AppModel(
       name: results["name"] ?? appModelFomConfig.name,
       organization: results["org"] ?? appModelFomConfig.organization,
-      templateRepository: results["template"] ?? appModelFomConfig.templateRepository,
+      templateRepository:
+          results["template"] ?? appModelFomConfig.templateRepository,
     );
 
     bool hasOneFiledNull = false;
 
     if (appModel.name == null) {
-      Logger.logError("Package identifier argument not found, neither in config. --name or -n to add one.");
+      Logger.logError(
+          "Package identifier argument not found, neither in config. --name or -n to add one.");
       hasOneFiledNull = true;
     }
 
     if (appModel.organization == null) {
-      Logger.logError("Organization identifier not found, neither in config. --org or -o to add one.");
+      Logger.logError(
+          "Organization identifier not found, neither in config. --org or -o to add one.");
       hasOneFiledNull = true;
     }
 
     if (appModel.templateRepository == null) {
-      Logger.logError("Template url not found, neither in config. --template or -t to use one.");
+      Logger.logError(
+          "Template url not found, neither in config. --template or -t to use one.");
       hasOneFiledNull = true;
     }
 
@@ -105,7 +110,8 @@ class CommandRunner {
     final String workingDirectoryPath = current.path;
 
     try {
-      Logger.logInfo("Creating flutter project using your current flutter version...");
+      Logger.logInfo(
+          "Creating flutter project using your current flutter version...");
 
       Process.runSync(
         "flutter",
@@ -119,7 +125,8 @@ class CommandRunner {
         runInShell: true,
       );
 
-      Logger.logInfo("Retrieving your template from ${appModel.templateRepository}...");
+      Logger.logInfo(
+          "Retrieving your template from ${appModel.templateRepository}...");
 
       Process.runSync(
         "git",
@@ -132,7 +139,8 @@ class CommandRunner {
         runInShell: true,
       );
 
-      final String content = await File("$workingDirectoryPath/temp/pubspec.yaml").readAsString();
+      final String content =
+          await File("$workingDirectoryPath/temp/pubspec.yaml").readAsString();
       final mapData = loadYaml(content);
       final String templatePackageName = mapData["name"];
 
@@ -210,7 +218,8 @@ class CommandRunner {
   }
 
   // Copy all the content of [sourceFilePath] and paste it in [targetFilePath]
-  Future<void> _copyPasteFileContent(String sourceFilePath, String targetFilePath) async {
+  Future<void> _copyPasteFileContent(
+      String sourceFilePath, String targetFilePath) async {
     try {
       final File sourceFile = File(sourceFilePath);
       final File targetFile = File(targetFilePath);
@@ -246,7 +255,8 @@ class CommandRunner {
   }
 
   // Update recursively all imports in [directoryPath] from [oldPackageName] to [newPackageName]
-  Future<void> _changeAllInDirectory(String directoryPath, String oldPackageName, String newPackageName) async {
+  Future<void> _changeAllInDirectory(String directoryPath,
+      String oldPackageName, String newPackageName) async {
     final Directory directory = Directory(directoryPath);
     final String dirName = directoryPath.split("/").last;
     if (directory.existsSync()) {
@@ -255,18 +265,22 @@ class CommandRunner {
         files,
         (FileSystemEntity fileSystemEntity) async {
           if (fileSystemEntity is File) {
-            await _changeAllInFile(fileSystemEntity.path, oldPackageName, newPackageName);
+            await _changeAllInFile(
+                fileSystemEntity.path, oldPackageName, newPackageName);
           }
         },
       );
-      Logger.logInfo("All files in $dirName updated with new package name ($newPackageName)");
+      Logger.logInfo(
+          "All files in $dirName updated with new package name ($newPackageName)");
     } else {
-      Logger.logWarning("Missing directory $dirName in your template, it will be ignored");
+      Logger.logWarning(
+          "Missing directory $dirName in your template, it will be ignored");
     }
   }
 
   // Update recursively all imports in [filePath] from [oldPackageName] to [newPackageName]
-  Future<void> _changeAllInFile(String filePath, String oldValue, String newValue) async {
+  Future<void> _changeAllInFile(
+      String filePath, String oldValue, String newValue) async {
     try {
       final File file = File(filePath);
       final String content = file.readAsStringSync();
