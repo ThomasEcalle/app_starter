@@ -16,7 +16,11 @@ Add missing executable and fix some Readme issues
 
 ## [1.0.0] - First usable version
 
-Add storable configuration values
-Add configuration displaying command
-Add help displaying command
-Add better documentation in Readme
+* Add storable configuration values
+* Add configuration displaying command
+* Add help displaying command
+* Add better documentation in Readme
+
+## [1.0.0+1] - Readme update
+
+* Just fix Readme table format
