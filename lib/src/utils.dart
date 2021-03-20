@@ -1,5 +1,6 @@
 import 'dart:io';
 
+// Simple Utils class
 class Utils {
   // A valid Dart identifier that can be used for a package, i.e. no
   // capital letters.

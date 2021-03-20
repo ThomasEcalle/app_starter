@@ -19,8 +19,7 @@ class AppModel {
   factory AppModel.fromConfigFile() {
     final File configFile = Utils.getConfigFile();
     if (configFile.existsSync()) {
-      final Map<String, dynamic> json =
-          jsonDecode(configFile.readAsStringSync());
+      final Map<String, dynamic> json = jsonDecode(configFile.readAsStringSync());
       return AppModel(
         name: json["name"],
         organization: json["organization"],
@@ -47,6 +46,7 @@ class AppModel {
     return false;
   }
 
+  // Returns Json-String formatted AppModel
   String _toJsonText() {
     final map = {
       "name": name,

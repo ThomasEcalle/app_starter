@@ -1,3 +1,4 @@
+// Simple Logging class
 class Logger {
   // Simple info log
   static void logInfo(String message, {bool lineBreak = false}) {
