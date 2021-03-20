@@ -33,14 +33,14 @@ app_starter --help
 ```      
       
 ## Arguments  
-| key | abbreviation | description | default value |        
-| ---- | ---- | ---- | ---- |        
-| name | n | the dart package identifier | example |        
-| org | o | the organisation identifier | com.example |        
-| template | t | the git repository of your template | https://github.com/ThomasEcalle/flappy_template |    
-| config | c | shows values stored in configuration file | --config |  
-| save | s | save values in configuration file | --save |  
-| help | h | shows help | --help |  
+|   key    | abbreviation |                 description               |                      example                    |        
+|   :----  |    :---:     |                   :----                   |                      :----                      |        
+|   name   |      n       |           the dart package identifier     |                      example                    |        
+|   org    |      o       |           the organisation identifier     |                     com.example                 |        
+| template |      t       |    the git repository of your template    | https://github.com/ThomasEcalle/flappy_template |    
+|  config  |      c       | shows values stored in configuration file |                     --config                    |  
+|   save   |      s       |     save values in configuration file     |                     --save                      |  
+|   help   |      h       |                 shows help                |                     --help                      |  
    
         
  ## How does it works ? 
