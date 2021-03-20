@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:app_starter/src/utils.dart';
 
-// Model representing app information
+/// Model representing app information
 class AppModel {
   final String? name;
   final String? organization;
@@ -15,7 +15,7 @@ class AppModel {
     required this.templateRepository,
   });
 
-  // Generate AppModel instance from configuration file
+  /// Generate AppModel instance from configuration file
   factory AppModel.fromConfigFile() {
     final File configFile = Utils.getConfigFile();
     if (configFile.existsSync()) {
@@ -30,14 +30,14 @@ class AppModel {
     return AppModel(name: null, organization: null, templateRepository: null);
   }
 
-  // Write information in config file
+  /// Write information in config file
   void writeInConfigFile() {
     final String jsonText = _toJsonText();
     final File configFile = Utils.getConfigFile();
     configFile.writeAsStringSync(jsonText, mode: FileMode.write);
   }
 
-  // Return if package identifier is a valid one or not, base on dart specifications
+  /// Return if package identifier is a valid one or not, base on dart specifications
   bool hasValidPackageName() {
     if (name != null) {
       final match = Utils.identifierRegExp.matchAsPrefix(name!);
@@ -46,7 +46,7 @@ class AppModel {
     return false;
   }
 
-  // Returns Json-String formatted AppModel
+  /// Returns Json-String formatted AppModel
   String _toJsonText() {
     final map = {
       "name": name,

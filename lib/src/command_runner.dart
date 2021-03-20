@@ -6,9 +6,9 @@ import 'package:yaml/yaml.dart';
 
 import 'models/app_model.dart';
 
-// Base app_starter class to launch app creation
+/// Base app_starter class to launch app creation
 class CommandRunner {
-  // Method called on app creation
+  /// Method called on app creation
   void create(List<String> args) async {
     final ArgParser parser = ArgParser()
       ..addOption(
@@ -210,7 +210,7 @@ class CommandRunner {
     }
   }
 
-  // Copy all the content of [sourceFilePath] and paste it in [targetFilePath]
+  /// Copy all the content of [sourceFilePath] and paste it in [targetFilePath]
   Future<void> _copyPasteFileContent(String sourceFilePath, String targetFilePath) async {
     try {
       final File sourceFile = File(sourceFilePath);
@@ -223,7 +223,7 @@ class CommandRunner {
     }
   }
 
-  // Copy all the content of [sourceDirPath] and paste it in [targetDirPath]
+  /// Copy all the content of [sourceDirPath] and paste it in [targetDirPath]
   void _copyPasteDirectory(
     String sourceDirPath,
     String targetDirPath,
@@ -246,7 +246,7 @@ class CommandRunner {
     );
   }
 
-  // Update recursively all imports in [directoryPath] from [oldPackageName] to [newPackageName]
+  /// Update recursively all imports in [directoryPath] from [oldPackageName] to [newPackageName]
   Future<void> _changeAllInDirectory(String directoryPath, String oldPackageName, String newPackageName) async {
     final Directory directory = Directory(directoryPath);
     final String dirName = directoryPath.split("/").last;
@@ -266,7 +266,7 @@ class CommandRunner {
     }
   }
 
-  // Update recursively all imports in [filePath] from [oldPackageName] to [newPackageName]
+  /// Update recursively all imports in [filePath] from [oldPackageName] to [newPackageName]
   Future<void> _changeAllInFile(String filePath, String oldValue, String newValue) async {
     try {
       final File file = File(filePath);
@@ -280,6 +280,7 @@ class CommandRunner {
     }
   }
 
+  /// Simply print help message
   void _showHelp() {
     print("""
     
