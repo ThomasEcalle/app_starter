@@ -28,3 +28,7 @@ Add missing executable and fix some Readme issues
 ## [1.0.0+2] - Readme update
 
 * Trying to fix pub.dev markdown table format
+
+## [1.0.0+3] - Readme update
+
+* Removing direct link in markdown table
