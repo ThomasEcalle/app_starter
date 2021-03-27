@@ -34,18 +34,19 @@ app_starter --help
       
 ## Arguments
 
-Here are the list of arguments you could use :
+Here are the list of arguments you could use:
 
 |   key    | abbreviation |                 description               |                      example                    |        
 |   :---   |    :---:     |                   :---                    |                      :---                       |        
 |   name   |      n       |           the dart package identifier     |                      example                    |        
 |   org    |      o       |           the organisation identifier     |                     com.example                 |        
-| template |      t       |    the git repository of your template    | https://github.com/ThomasEcalle/flappy_template |    
+| template |      t       |    the git repository of your template    |          <your_template_git_repository_url>     |    
 |  config  |      c       | shows values stored in configuration file |                     --config                    |  
 |   save   |      s       |     save values in configuration file     |                     --save                      |  
 |   help   |      h       |                 shows help                |                     --help                      |  
-   
-        
+
+You could find a template example here: https://github.com/ThomasEcalle/flappy_template
+
  ## How does it works ? 
  
 1. This tool **creates** a fresh new flutter application using the basic `flutter create` command from the flutter version installed on your computer.  
@@ -126,7 +127,7 @@ Also because automating flavors creation is not really easy.
   
 **BUT**, app_starter can still help you handling flavors easily in your templates 🔥  
   
-For example, in the default template, I use the great package [flutter_flavorizr](https://pub.dev/packages/flutter_flavorizr).  
+For example, in this simple [default template](https://github.com/ThomasEcalle/flappy_template), I use the great package [flutter_flavorizr](https://pub.dev/packages/flutter_flavorizr).  
     
 Thanks to this package, I just have to say which flavors I would like to create in the pubspec.yaml.  
   
