@@ -24,3 +24,7 @@ Add missing executable and fix some Readme issues
 ## [1.0.0+1] - Readme update
 
 * Just fix Readme table format
+
+## [1.0.0+2] - Readme update
+
+* Trying to fix pub.dev markdown table format
