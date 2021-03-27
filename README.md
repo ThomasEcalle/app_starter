@@ -32,9 +32,12 @@ Showing help:
 app_starter --help      
 ```      
       
-## Arguments  
+## Arguments
+
+Here are the list of arguments you could use :
+
 |   key    | abbreviation |                 description               |                      example                    |        
-|   :----  |    :---:     |                   :----                   |                      :----                      |        
+|   :---   |    :---:     |                   :---                    |                      :---                       |        
 |   name   |      n       |           the dart package identifier     |                      example                    |        
 |   org    |      o       |           the organisation identifier     |                     com.example                 |        
 | template |      t       |    the git repository of your template    | https://github.com/ThomasEcalle/flappy_template |    
